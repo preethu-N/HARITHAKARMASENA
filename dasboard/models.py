@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from myapp.models import Register
 
 # Create your models here.
 
@@ -11,7 +11,7 @@ class WasteRequest(models.Model):
         ("COMPLETED", "COMPLETED"),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Register, on_delete=models.CASCADE)
     waste_type = models.CharField(max_length=100)
     date = models.DateField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="PENDING")
@@ -26,7 +26,7 @@ class Payment(models.Model):
         ("PENDING", "PENDING"),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Register, on_delete=models.CASCADE)
     amount = models.IntegerField()
     invoice = models.CharField(max_length=100)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES)
@@ -36,8 +36,8 @@ class Payment(models.Model):
 
 
 class Feedback(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Register, on_delete=models.CASCADE)
     message = models.TextField()
 
     def __str__(self):
-        return self.user.username
+        return self.user.name

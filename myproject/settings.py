@@ -152,6 +152,9 @@ PAYPAL_MODE = "sandbox"
 
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'logins.authentication.CustomJWTAuthentication',
+    ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ]

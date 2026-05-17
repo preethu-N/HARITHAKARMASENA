@@ -4,9 +4,12 @@ from myapp.models import Register
 import json
 import uuid
 
-# simple fake token generator (for now)
-def generate_token():
-    return str(uuid.uuid4())
+from rest_framework_simplejwt.tokens import RefreshToken
+
+def generate_token(user):
+    refresh = RefreshToken()
+    refresh['user_id'] = user.id
+    return str(refresh.access_token)
 
 
 @csrf_exempt
@@ -24,7 +27,7 @@ def login_view(request):
 
             if user.password == password:
 
-                token = generate_token()
+                token = generate_token(user)
 
                 return JsonResponse({
                     "message": "Login Success",

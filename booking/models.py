@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from myapp.models import Register
 
 
 class Booking(models.Model):
@@ -11,7 +11,7 @@ class Booking(models.Model):
         ("scheduled", "scheduled"),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Register, on_delete=models.CASCADE)
 
     waste_type = models.CharField(max_length=100)
 

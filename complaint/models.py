@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from myapp.models import Register
 
 
 class UserComplaint(models.Model):
@@ -9,7 +9,7 @@ class UserComplaint(models.Model):
         ("resolved", "resolved"),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Register, on_delete=models.CASCADE)
 
     subject = models.CharField(max_length=200)
 

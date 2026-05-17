@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from myapp.models import Register
 
 
 # Create your models here.
@@ -13,7 +13,7 @@ class UserPayment(models.Model):
         ("PENDING", "PENDING"),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Register, on_delete=models.CASCADE)
 
     payment_type = models.CharField(max_length=100)
 

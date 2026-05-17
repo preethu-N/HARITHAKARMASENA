@@ -4,6 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from dasboard.views import dashboard_summary
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -11,6 +12,7 @@ urlpatterns = [
     path('api/', include('myapp.urls')),
     path('api/login/', include('logins.urls')),
     path('api/dashboard/', include('dasboard.urls')),
+    path('api/dasboardwaste/', dashboard_summary, name='dashboard_summary'),
     path('api/payment/', include('payment.urls')),
     path('api/complaint/', include('complaint.urls')),
     path('api/feedback/', include('feedback.urls')),

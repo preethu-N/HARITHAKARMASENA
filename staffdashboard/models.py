@@ -12,6 +12,8 @@ class StaffTask(models.Model):
     type = models.CharField(max_length=100)
 
     customer = models.CharField(max_length=100)
+    
+    request_id = models.IntegerField(null=True, blank=True)
 
     address = models.TextField()
 

@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from myapp.models import Register
 
 
 class UserRequest(models.Model):
@@ -8,10 +8,12 @@ class UserRequest(models.Model):
         ("PENDING", "PENDING"),
         ("APPROVED", "APPROVED"),
         ("REJECTED", "REJECTED"),
+        ("in-progress", "in-progress"),
+        ("completed", "completed"),
     )
 
     user = models.ForeignKey(
-        User,
+        Register,
         on_delete=models.CASCADE,
         related_name="userrequests"
     )
