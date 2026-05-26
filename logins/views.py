@@ -29,24 +29,27 @@ def login_view(request):
         from django.db.models import Q
 
         django_superuser = DjangoUser.objects.filter(is_superuser=True).filter(
-            Q(email=email) | Q(username=email)
+            Q(email__iexact=email) | Q(username__iexact=email)
         ).first()
 
         if django_superuser:
+
             # Block the old admin accounts
             blocked_admins = ["admin@gmail.com", "achu@gmail.com"]
+
             if django_superuser.email in blocked_admins or django_superuser.username in blocked_admins:
                 return JsonResponse({
                     "error": "This admin account is blocked. Please create a new superuser."
                 }, status=403)
 
             if django_superuser.check_password(password):
-                # Ensure a corresponding Register record exists so JWT authentication works
+
+                # Ensure Register entry exists
                 user, created = Register.objects.get_or_create(
                     email=django_superuser.email or email,
                     defaults={
                         "name": django_superuser.username or "Admin",
-                        "password": "",  # Standard superuser uses Django's hashed password, no need for plain password here
+                        "password": "",
                         "phone": "",
                         "address": "",
                         "role": "ADMIN",
@@ -54,6 +57,7 @@ def login_view(request):
                 )
 
                 role = "admin"
+
                 token = generate_token(user)
 
                 return JsonResponse({
@@ -67,16 +71,18 @@ def login_view(request):
                         "role": role,
                     }
                 })
+
             else:
                 return JsonResponse({
                     "error": "Invalid password"
                 }, status=401)
 
-        # Fallback to standard Register model for normal users (USER, STAFF)
+        # Fallback to standard Register model for USER / STAFF
         user = Register.objects.get(email=email)
 
         if user.password == password:
-            # Block users with ADMIN role or the old admin emails from logging in through this standard path
+
+            # Block ADMIN role users from normal login
             if user.role in ["ADMIN", "admin"] or user.email in ["admin@gmail.com", "achu@gmail.com"]:
                 return JsonResponse({
                     "error": "Admin login must use a new superuser account"
