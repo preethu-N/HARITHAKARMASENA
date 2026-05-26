@@ -28,7 +28,11 @@ SECRET_KEY = 'django-insecure-%z+@ncb(##j&)hf=*k21i)bqne$lbog^7x5^g+g!53+$onwe!#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< Updated upstream
 ALLOWED_HOSTS = ['preethu17.pythonanywhere.com', '127.0.0.1', 'localhost']
+=======
+ALLOWED_HOSTS = ['preethu17.pythonanywhere.com']
+>>>>>>> Stashed changes
 
 
 # Application definition
@@ -56,7 +60,7 @@ INSTALLED_APPS = [
     'stafftracking',
     'homeapp',
     'rest_framework_simplejwt',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -148,7 +152,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 PAYPAL_CLIENT_ID = "AZUsvstrvuqxep6tI0yquzfgqpxwdJf74Nb1CV6apndm-ehRS1l-HoC4QlrRQ9ivqpWDEXWVIf1AnHL2"
 
 PAYPAL_CLIENT_SECRET = "EENpD0CTfFwau7HtDYAHalQaZoGv_pPCPOvPn4dQS3KhvZbkTXZOjNiviAzwycLqX0bN4bI7PdPsqVA_"
-PAYPAL_MODE = "sandbox" 
+PAYPAL_MODE = "sandbox"
 
 
 REST_FRAMEWORK = {
