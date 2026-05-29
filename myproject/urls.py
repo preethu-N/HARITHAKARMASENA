@@ -29,26 +29,29 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view()),
     path('api/token/refresh/', TokenRefreshView.as_view()),
 
-    path('', lambda request: JsonResponse({
-        "message": "HARITHAKARMASENA API Working",
-        "routes": [
-            "/admin/",
-            "/api/",
-            "/api/login/",
-            "/api/dashboard/",
-            "/api/dasboardwaste/",
-            "/api/payment/",
-            "/api/complaint/",
-            "/api/feedback/",
-            "/api/staff/",
-            "/api/adminpanel/",
-            "/api/booking/",
-            "/api/request/",
-            "/api/history/",
-            "/api/tracking/",
-            "/api/home/",
-            "/api/token/",
-            "/api/token/refresh/"
-        ]
-    })),
+    path('', lambda request: HttpResponse("""
+    <h1>HARITHAKARMASENA API Working</h1>
+
+    <h3>Available Routes:</h3>
+
+    <ul>
+        <li>/admin/</li>
+        <li>/api/</li>
+        <li>/api/login/</li>
+        <li>/api/dashboard/</li>
+        <li>/api/dasboardwaste/</li>
+        <li>/api/payment/</li>
+        <li>/api/complaint/</li>
+        <li>/api/feedback/</li>
+        <li>/api/staff/</li>
+        <li>/api/adminpanel/</li>
+        <li>/api/booking/</li>
+        <li>/api/request/</li>
+        <li>/api/history/</li>
+        <li>/api/tracking/</li>
+        <li>/api/home/</li>
+        <li>/api/token/</li>
+        <li>/api/token/refresh/</li>
+    </ul>
+""")),
 ]
