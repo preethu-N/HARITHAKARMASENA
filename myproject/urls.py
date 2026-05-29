@@ -30,7 +30,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view()),
 
     path('', lambda request: HttpResponse("""
-    <h1>HARITHAKARMASENA API Working</h1>
+    
 
     <h3>Available Routes:</h3>
 
