@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponse
+from django.http import JsonResponse
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 from dasboard.views import dashboard_summary
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,8 +25,30 @@ urlpatterns = [
     path('api/history/', include('history.urls')),
     path('api/tracking/', include('stafftracking.urls')),
     path('api/home/', include('homeapp.urls')),
+
     path('api/token/', TokenObtainPairView.as_view()),
     path('api/token/refresh/', TokenRefreshView.as_view()),
 
-    path('', lambda request: HttpResponse("Website working")),
+    path('', lambda request: JsonResponse({
+        "message": "HARITHAKARMASENA API Working",
+        "routes": [
+            "/admin/",
+            "/api/",
+            "/api/login/",
+            "/api/dashboard/",
+            "/api/dasboardwaste/",
+            "/api/payment/",
+            "/api/complaint/",
+            "/api/feedback/",
+            "/api/staff/",
+            "/api/adminpanel/",
+            "/api/booking/",
+            "/api/request/",
+            "/api/history/",
+            "/api/tracking/",
+            "/api/home/",
+            "/api/token/",
+            "/api/token/refresh/"
+        ]
+    })),
 ]
