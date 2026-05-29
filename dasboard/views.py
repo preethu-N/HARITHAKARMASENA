@@ -22,16 +22,17 @@ from rest_framework.response import Response
 @permission_classes([IsAuthenticated])
 def dashboard_summary(request):
     try:
-        # Avoid 500 error if models still point to User instead of Register
-        requests = WasteRequest.objects.all() # Just return all for now to avoid breaking
+        from request.models import UserRequest
+        
+        requests = UserRequest.objects.filter(user=request.user)
         
         total = requests.count()
-        pending = requests.filter(status="PENDING").count()
-        completed = requests.filter(status="COMPLETED").count()
+        pending = requests.filter(status__iexact="PENDING").count()
+        completed = requests.filter(status__iexact="COMPLETED").count()
         points = completed * 10
         
         activities = []
-        for req in requests[:5]:
+        for req in requests.order_by("-id")[:5]:
             activities.append({
                 "type": req.waste_type,
                 "date": str(req.date),

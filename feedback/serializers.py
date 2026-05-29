@@ -3,9 +3,14 @@ from .models import UserFeedback
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
+
     class Meta:
+
         model = UserFeedback
-        fields = "__all__"
-        extra_kwargs = {
-            "user": {"required": False}
-        }
+
+        fields = [
+            "id",
+            "subject",
+            "message",
+            "created_at",
+        ]

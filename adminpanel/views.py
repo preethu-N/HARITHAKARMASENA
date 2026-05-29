@@ -46,6 +46,28 @@ def approve_booking(request, pk):
         return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
     booking.status = "approved"
     booking.save()
+
+    # Sync corresponding UserRequest
+    from request.models import UserRequest
+    UserRequest.objects.filter(
+        user=booking.user,
+        waste_type=booking.waste_type,
+        address=booking.address,
+        status="PENDING"
+    ).update(status="APPROVED")
+
+    # Auto-create StaffTask for this booking
+    from staffdashboard.models import StaffTask
+    StaffTask.objects.get_or_create(
+        request_id=booking.id,
+        defaults={
+            "type": booking.waste_type,
+            "customer": booking.user.name,
+            "address": booking.address,
+            "status": "pending",
+        }
+    )
+
     return Response(
         {
             "id": booking.id,
@@ -65,6 +87,16 @@ def reject_booking(request, pk):
         return Response({"detail": "Not found."}, status=status.HTTP_404_NOT_FOUND)
     booking.status = "rejected"
     booking.save()
+
+    # Sync corresponding UserRequest
+    from request.models import UserRequest
+    UserRequest.objects.filter(
+        user=booking.user,
+        waste_type=booking.waste_type,
+        address=booking.address,
+        status="PENDING"
+    ).update(status="REJECTED")
+
     return Response(
         {
             "id": booking.id,

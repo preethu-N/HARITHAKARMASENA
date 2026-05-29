@@ -17,6 +17,21 @@ class StaffTaskViewSet(viewsets.ModelViewSet):
         task = self.get_object()
         task.status = "in-progress"
         task.save()
+
+        # Update corresponding Booking and UserRequest
+        if task.request_id:
+            from booking.models import Booking
+            from request.models import UserRequest
+
+            Booking.objects.filter(pk=task.request_id).update(status="scheduled")
+            booking = Booking.objects.filter(pk=task.request_id).first()
+            if booking:
+                UserRequest.objects.filter(
+                    user=booking.user,
+                    waste_type=booking.waste_type,
+                    address=booking.address
+                ).update(status="in-progress")
+
         serializer = self.get_serializer(task)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -26,6 +41,20 @@ class StaffTaskViewSet(viewsets.ModelViewSet):
         task = self.get_object()
         task.status = "completed"
         task.save()
+
+        # Update corresponding Booking and UserRequest
+        if task.request_id:
+            from booking.models import Booking
+            from request.models import UserRequest
+
+            booking = Booking.objects.filter(pk=task.request_id).first()
+            if booking:
+                UserRequest.objects.filter(
+                    user=booking.user,
+                    waste_type=booking.waste_type,
+                    address=booking.address
+                ).update(status="completed")
+
         serializer = self.get_serializer(task)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
